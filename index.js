@@ -1,15 +1,15 @@
-import { configDotenv } from "dotenv";
+import { configDotenv } from 'dotenv';
 configDotenv();
-
-import express from "express";
-import connectDB from "./config/database.config.js";
+import express from 'express';
+import connectDB from './config/database.config.js';
 
 connectDB();
 
 const app = express();
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
 
 const PORT = process.env.PORT || 5000;
