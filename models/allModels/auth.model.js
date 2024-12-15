@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const authSchema = new mongoose.Schema(
   {
@@ -24,13 +23,13 @@ const authSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "user",
-      enum: ["user", "organization"],
+      default: 'user',
+      enum: ['user', 'organization'],
     },
     gender: {
       //type enum
       type: String,
-      enum: ["male", "female", "other"],
+      enum: ['male', 'female', 'other'],
     },
     address: {
       type: String,
@@ -45,11 +44,11 @@ const authSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-authSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
+authSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
     next();
   }
   const salt = await bcrypt.genSalt(10);
@@ -60,6 +59,6 @@ authSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const Auth = mongoose.model("Auth", authSchema);
+const Auth = mongoose.model('Auth', authSchema);
 
 export default Auth;

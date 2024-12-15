@@ -1,4 +1,4 @@
-import Auth from "../models/auth.model";
+import models from "../models/index.model.js";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 
@@ -21,7 +21,7 @@ export const register = async (req, res) => {
   }
 
   try {
-    const user = await Auth.create({
+    const user = await models.Auth.create({
       name,
       email,
       password,
@@ -79,4 +79,3 @@ export const login = async (req, res) => {
       .json({ success: false, message: error.message });
   }
 };
-
