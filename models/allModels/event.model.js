@@ -26,6 +26,11 @@ const eventSchema = new mongoose.Schema(
     eventImage: {
       type: String,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Auth',
+      required: true,
+    },
   },
   {
     timestamps: true,

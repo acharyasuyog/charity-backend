@@ -1,6 +1,6 @@
-import models from "../models/index.model.js";
-import { StatusCodes } from "http-status-codes";
-import jwt from "jsonwebtoken";
+import models from '../models/index.model.js';
+import { StatusCodes } from 'http-status-codes';
+import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
   const {
@@ -15,7 +15,7 @@ export const register = async (req, res) => {
     profileImage,
   } = req.body;
 
-  if (role === "organization") {
+  if (role === 'organization') {
     delete req.body.gender;
     delete req.body.age;
   }
@@ -32,9 +32,14 @@ export const register = async (req, res) => {
       address,
       profileImage,
     });
+
+    const responseUser = user.toObject();
+    delete responseUser.password;
+
     res
       .status(StatusCodes.CREATED)
-      .json({ success: true, data: { ...user, password: undefined } });
+      // .json({ success: true, data: { user, password: undefined } });
+      .json({ success: true, data: responseUser });
   } catch (error) {
     res
       .status(StatusCodes.BAD_REQUEST)
@@ -48,29 +53,36 @@ export const login = async (req, res) => {
   if (!email || !password) {
     res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ success: false, message: "Please provide email and password" });
+      .json({ success: false, message: 'Please provide email and password' });
   }
 
   try {
-    const user = await Auth.findOne({ email }).select("+password");
+    const user = await models.Auth.findOne({ email });
 
     if (!user) {
       res
         .status(StatusCodes.NOT_FOUND)
-        .json({ success: false, message: "Invalid credentials" });
+        .json({ success: false, message: 'Invalid credentials' });
     }
 
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await user.matchPassword(password, user.password);
 
     if (!isMatch) {
       res
         .status(StatusCodes.UNAUTHORIZED)
-        .json({ success: false, message: "Invalid credentials" });
+        .json({ success: false, message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRE,
-    });
+    const responseUser = user.toObject();
+    responseUser.password = undefined;
+    const token = jwt.sign(
+      { responseUser },
+
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRE,
+      },
+    );
 
     res.status(StatusCodes.OK).json({ success: true, token });
   } catch (error) {

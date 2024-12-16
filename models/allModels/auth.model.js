@@ -19,7 +19,6 @@ const authSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      required: true,
     },
     role: {
       type: String,
@@ -27,13 +26,11 @@ const authSchema = new mongoose.Schema(
       enum: ['user', 'organization'],
     },
     gender: {
-      //type enum
       type: String,
-      enum: ['male', 'female', 'other'],
+      enum: ['male', 'female', 'others'],
     },
     address: {
       type: String,
-      required: true,
     },
     age: {
       type: Number,

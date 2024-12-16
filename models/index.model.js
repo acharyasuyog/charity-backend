@@ -1,5 +1,5 @@
-import Auth from './allModels/auth.model';
-import Event from './allModels/event.model';
+import Auth from './allModels/auth.model.js';
+import Event from './allModels/event.model.js';
 
 const models = { Auth, Event };
 
