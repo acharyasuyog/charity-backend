@@ -1,6 +1,8 @@
 import models from '../models/index.model.js';
 import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
+import uploadOnCloudinary from '../config/cloudinary.config.js';
+// import upload from '../middlewares/multer.middleware.js';
 
 export const register = async (req, res) => {
   const {
@@ -58,6 +60,7 @@ export const login = async (req, res) => {
 
   try {
     const user = await models.Auth.findOne({ email });
+    // console.log(user);
 
     if (!user) {
       res
@@ -73,21 +76,49 @@ export const login = async (req, res) => {
         .json({ success: false, message: 'Invalid credentials' });
     }
 
-    const responseUser = user.toObject();
-    responseUser.password = undefined;
-    const token = jwt.sign(
-      { responseUser },
+    const payload = {
+      _id: user._id,
+      role: user.role,
+    };
 
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRE,
-      },
-    );
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
 
-    res.status(StatusCodes.OK).json({ success: true, token });
+    return res.status(StatusCodes.OK).json({ success: true, token });
+  } catch (error) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: error.message });
+  }
+};
+
+export const getMe = async (req, res) => {
+  try {
+    const user = await models.Auth.findById(req.user._id);
+
+    res.status(StatusCodes.OK).json({ success: true, data: user });
   } catch (error) {
     res
       .status(StatusCodes.BAD_REQUEST)
       .json({ success: false, message: error.message });
   }
+};
+
+export const uploadProfileImage = async (req, res) => {
+  const user = await models.Auth.findById(req.user._id);
+  console.log(user);
+  if (!user) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ success: false, message: 'User not found' });
+  }
+
+  if (req.file) {
+    uploadOnCloudinary(req.file);
+    user.profileImage = req.file.path;
+  }
+
+  return res.status(StatusCodes.OK).json({ success: true, data: user });
+  // await user.save();
 };
