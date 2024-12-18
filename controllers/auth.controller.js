@@ -2,7 +2,6 @@ import models from '../models/index.model.js';
 import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import uploadOnCloudinary from '../config/cloudinary.config.js';
-// import upload from '../middlewares/multer.middleware.js';
 
 export const register = async (req, res) => {
   const {
@@ -60,7 +59,6 @@ export const login = async (req, res) => {
 
   try {
     const user = await models.Auth.findOne({ email });
-    // console.log(user);
 
     if (!user) {
       res
