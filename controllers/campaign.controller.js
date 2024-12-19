@@ -1,7 +1,7 @@
 import models from '../models/index.model.js';
 import { StatusCodes } from 'http-status-codes';
 
-export const createFundPost = async (req, res) => {
+export const createCampaign = async (req, res) => {
   const userId = req.user._id;
   if (!userId) {
     return res
@@ -25,7 +25,7 @@ export const createFundPost = async (req, res) => {
     fundImage,
     participants,
   } = req.body;
-  const newFundPost = new models.FundPost({
+  const newFundPost = new models.Campaign({
     title,
     description,
     totalFund,
@@ -49,9 +49,9 @@ export const createFundPost = async (req, res) => {
   }
 };
 
-export const getAllFundPosts = async (req, res) => {
+export const getAllCampaigns = async (req, res) => {
   try {
-    const allFundPosts = await models.FundPost.find();
+    const allFundPosts = await models.Campaign.find();
     return res
       .status(StatusCodes.OK)
       .json({ success: true, data: allFundPosts });
@@ -62,10 +62,10 @@ export const getAllFundPosts = async (req, res) => {
   }
 };
 
-export const getFundPostById = async (req, res) => {
+export const getCampaignbyId = async (req, res) => {
   try {
     const { id } = req.params;
-    const fundPost = await models.FundPost.findById(id).populate(
+    const fundPost = await models.Campaign.findById(id).populate(
       'postedBy',
       'name email',
     );

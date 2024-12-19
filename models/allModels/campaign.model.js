@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const fundPostSchema = new mongoose.Schema(
+const campaignSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -51,5 +51,5 @@ const fundPostSchema = new mongoose.Schema(
   },
 );
 
-const FundPost = mongoose.model('FundPost', fundPostSchema);
-export default FundPost;
+const Campaign = mongoose.model('Campaign', campaignSchema);
+export default Campaign;
