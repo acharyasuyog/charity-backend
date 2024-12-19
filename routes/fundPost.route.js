@@ -3,10 +3,11 @@ import {
   createFundPost,
   getAllFundPosts,
   getFundPostById,
-} from '../controllers/fundPost.controller';
+} from '../controllers/fundPost.controller.js';
+import verifyToken from '../middlewares/auth.middleware.js';
 const router = express.Router();
 
-router.post('/', createFundPost);
+router.post('/', verifyToken, createFundPost);
 router.get('/', getAllFundPosts);
 router.get('/:id', getFundPostById);
 

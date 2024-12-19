@@ -2,6 +2,8 @@ import models from '../models/index.model.js';
 import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import uploadOnCloudinary from '../config/cloudinary.config.js';
+import { sendEmail } from '../services/email.service.js';
+import generateSignupSuccessEmail from '../boilerplates/email.boilerplate.js';
 
 export const register = async (req, res) => {
   const {
@@ -37,9 +39,10 @@ export const register = async (req, res) => {
     const responseUser = user.toObject();
     delete responseUser.password;
 
-    res
+    sendEmail(email, 'Email testing by Suyog', generateSignupSuccessEmail(name));
+
+    return res
       .status(StatusCodes.CREATED)
-      // .json({ success: true, data: { user, password: undefined } });
       .json({ success: true, data: responseUser });
   } catch (error) {
     res

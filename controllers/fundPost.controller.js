@@ -1,4 +1,4 @@
-import models from '../models/index.model';
+import models from '../models/index.model.js';
 import { StatusCodes } from 'http-status-codes';
 
 export const createFundPost = async (req, res) => {
@@ -6,7 +6,7 @@ export const createFundPost = async (req, res) => {
   if (!userId) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: 'Unauthorized, please use org id' });
+      .json({ message: 'Unauthorized, Please use token :)' });
   }
 
   if (req.user.role !== 'organization') {
@@ -23,7 +23,6 @@ export const createFundPost = async (req, res) => {
     fundTime,
     totalFundPercentage,
     fundImage,
-    postedBy,
     participants,
   } = req.body;
   const newFundPost = new models.FundPost({
@@ -66,11 +65,14 @@ export const getAllFundPosts = async (req, res) => {
 export const getFundPostById = async (req, res) => {
   try {
     const { id } = req.params;
-    const fundPost = await models.FundPost.findById(id);
+    const fundPost = await models.FundPost.findById(id).populate(
+      'postedBy',
+      'name email',
+    );
     if (!fundPost) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .json({ message: `FundPost with id: ${id} not found` });
+        .json({ message: 'Post not found' });
     }
     return res.status(StatusCodes.OK).json({ success: true, data: fundPost });
   } catch (error) {
