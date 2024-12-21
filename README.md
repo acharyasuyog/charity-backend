@@ -13,6 +13,25 @@ Kudos 🎉🎉. Good to go now 👏🏽👏🏽. Test api using postman.
 ## API DESCRIPTION
 
 ```perl
+POST : /api/v1/auth/register
+
+payload: {
+   username: "suyognotnice@gmail.com"
+  password:"Test@123"
+}
+
+****** -> Response  <- *******
+onSuccess: {
+  message: 'Register succesfull !!',
+ email:"suyognotnice@gmail.com"
+}
+onFailure: {
+  message: 'Register failed !!',
+  token: null,
+}
+```
+
+```perl
 POST : /api/v1/auth/login
 
 payload: {
@@ -29,5 +48,34 @@ token:"s23241sfsdf.ad34fdsfdsdf.34sfgsfsfsfsd"
 onFailure: {
   message: 'Login failed !!',
   token: null,
+}
+```
+
+## Donation
+
+```
+POST : api/v1/donation
+
+
+payload: {
+  userId:"retrieved from token",
+  amount: 100,
+  campaignId: "5f7b4b3b7f3b3b3b3b3b3b3b",
+  paymentId: "esewa/khalti id",
+  status: "success" // pending, success, failed
+}
+
+****** -> Response  <- *******
+onSuccess: {
+  message: 'Donation successfull !!',
+  amount: 100,
+  campaignId: "5f7b4b3b7f3b3b3b3b3b3b3b",
+  paymentId: "esewa/khalti id",
+  status: "success"
+}
+
+onFailure: {
+  message: 'Donation failed !!',
+  status: "failed"
 }
 ```
