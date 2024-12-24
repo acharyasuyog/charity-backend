@@ -24,7 +24,15 @@ export const createCampaign = async (req, res) => {
     totalFundPercentage,
     fundImage,
     participants,
+    category,
   } = req.body;
+
+  const categoryId = await models.Category.findById(category);
+  if (!categoryId) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'Category not found' });
+  }
   const newFundPost = new models.Campaign({
     title,
     description,
@@ -36,6 +44,7 @@ export const createCampaign = async (req, res) => {
     fundImage,
     postedBy: userId,
     participants,
+    category,
   });
   try {
     await newFundPost.save();
@@ -65,10 +74,9 @@ export const getAllCampaigns = async (req, res) => {
 export const getCampaignbyId = async (req, res) => {
   try {
     const { id } = req.params;
-    const fundPost = await models.Campaign.findById(id).populate(
-      'postedBy',
-      'name email',
-    );
+    const fundPost = await models.Campaign.findById(id)
+      .populate('postedBy', 'name email')
+      .populate('participants', 'name');
     if (!fundPost) {
       return res
         .status(StatusCodes.NOT_FOUND)

@@ -31,14 +31,19 @@ export const createDonation = async (req, res) => {
     campaign.totalFund -= amount;
     campaign.totalFundPercentage =
       (campaign.currentFund / campaign.totalFund) * 100;
-    await campaign.save();
 
+    await models.Campaign.findByIdAndUpdate(campaign, {
+      // participants: campaign.participants.push(userId),
+      participants: [...campaign.participants, userId],
+    });
     status === 'completed';
+    await campaign.save();
 
     return res
       .status(StatusCodes.CREATED)
       .json({ success: true, data: newDonation });
   } catch (error) {
+    // status === 'failed';
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: error.message });

@@ -39,6 +39,11 @@ const campaignSchema = new mongoose.Schema(
       ref: 'Auth',
       required: true,
     },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true,
+    },
     participants: [
       {
         type: mongoose.Schema.Types.ObjectId,
