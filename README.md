@@ -78,4 +78,53 @@ onFailure: {
   message: 'Donation failed !!',
   status: "failed"
 }
+
+```
+```
+GET : api/v1/donation
+
+payload: {
+  userId:"retrieved from token",
+}
+
+****** -> Response  <- *******
+onSuccess: {
+  message: 'Donation successfull !!',
+  amount: 100,
+  campaignId: "5f7b4b3b7f3b3b3b3b3b3b3b",
+  paymentId: "esewa/khalti id",
+  status: "success"
+}
+
+onFailure: {
+  message: 'Donation failed !!',
+  status: "failed"
+}
+
+```
+
+```
+GET : api/v1/donation/:campaignId
+
+payload: {
+  userId:"retrieved from token",
+}
+
+****** -> Response  <- *******
+
+onSuccess: {
+  message: 'Donation successfull !!',
+  amount: 100,
+  campaignId: "5f7b4b3b7f3b3b3b3b3b3b3b",
+  paymentId: "esewa/khalti id",
+  status: "success"
+}
+
+onFailure: {
+  message: 'Donation failed !!',
+  status: "failed"
+}
+
+```
+
 ```
