@@ -3,11 +3,17 @@ import { StatusCodes } from 'http-status-codes';
 
 export const createCategory = async (req, res) => {
   try {
-    const category = new models.Category(req.body);
-    await category.save();
-    res.status(StatusCodes.CREATED).json(category);
+    const { name } = req.body;
+    const newCategory = new models.Category({ name: name.toLowerCase() });
+    await newCategory.save();
+
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ success: true, data: newCategory });
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
   }
 };
 
