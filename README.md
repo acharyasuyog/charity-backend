@@ -12,6 +12,8 @@ Kudos 🎉🎉. Good to go now 👏🏽👏🏽. Test api using postman.
 
 ## API DESCRIPTION
 
+## Authentication
+
 ```perl
 POST : /api/v1/auth/register
 
@@ -42,10 +44,9 @@ payload: {
 
 ****** -> Response  <- *******
 onSuccess: {
-{
     "success": true,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZhMzFlOTMzNTUwMTMyMGQ5YmUyZGMiLCJyb2xlIjoib3JnYW5pemF0aW9uIiwiaWF0IjoxNzM1MjY5OTg1LCJleHAiOjE3Mzc4NjE5ODV9.B9xmuEvlrvFxtOzRhWccQm-14f-1R_Qqp2FHTjvWmhc"
-}
+
 }
 onFailure: {
     "success": false,
@@ -97,17 +98,15 @@ onFailure:{
 }
 ```
 
-```
-
 ## Donation
 
-```
+```perl
 
 POST : api/v1/donation
 
 payload: {
-userId:"retrieved from token",
-amount: 100,
+"userId":"retrieved from token",
+"amount": 100,
 campaignId: "5f7b4b3b7f3b3b3b3b3b3b3b",
 paymentId: "esewa/khalti id",
 status: "success" // pending, success, failed
@@ -129,7 +128,7 @@ status: "failed"
 
 ```
 
-```
+```perl
 
 GET : api/v1/donation
 
@@ -153,7 +152,7 @@ status: "failed"
 
 ```
 
-```
+```perl
 
 GET : api/v1/donation/:campaignId
 
@@ -176,8 +175,4 @@ message: 'Donation failed !!',
 status: "failed"
 }
 
-````
-
-```e
-
-````
+```
