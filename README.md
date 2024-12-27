@@ -54,6 +54,35 @@ onFailure: {
 }
 ```
 
+```perl
+PUT : /api/v1/auth/uploadProfileImage
+
+payload:{
+  "token":"retrieved from login",
+
+  formData: {
+    "profileImage": "https://example.com/images/profile.jpg"
+  }
+  onSuccess:{
+{
+    "success": true,
+    "message": "Profile image uploaded successfully",
+    "data": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "profileImage": "https://example.com/path/to/profile-image.jpg"
+    }
+}
+}
+
+onFailure:{ success: false,
+ message: "Couldn't upload profile image" }
+```
+
+````perl
+
+}
+
 ## Campaign
 
 ```perl
@@ -96,7 +125,7 @@ onFailure:{
     "success": false,
     "message": "Campaign creation failed"
 }
-```
+````
 
 ## Donation
 

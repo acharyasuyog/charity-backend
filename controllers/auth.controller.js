@@ -39,7 +39,11 @@ export const register = async (req, res) => {
     const responseUser = user.toObject();
     delete responseUser.password;
 
-    sendEmail(email, 'Email testing by Suyog', generateSignupSuccessEmail(name));
+    sendEmail(
+      email,
+      'Email testing by Suyog',
+      generateSignupSuccessEmail(name),
+    );
 
     return res
       .status(StatusCodes.CREATED)
@@ -115,11 +119,25 @@ export const uploadProfileImage = async (req, res) => {
       .json({ success: false, message: 'User not found' });
   }
 
-  if (req.file) {
-    uploadOnCloudinary(req.file);
-    user.profileImage = req.file.path;
+  try {
+    if (req.file) {
+      uploadOnCloudinary(req.file);
+      user.profileImage = req.file.path;
+    }
+
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Profile image uploaded successfully',
+      data: {
+        name: user.name,
+        email: user.email,
+        profileImage: user.profileImage,
+      },
+    });
+  } catch (error) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: "Couldn't upload profile image" });
   }
 
-  return res.status(StatusCodes.OK).json({ success: true, data: user });
-  // await user.save();
 };
