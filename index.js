@@ -3,6 +3,10 @@ configDotenv();
 import express from 'express';
 import connectDB from './config/database.config.js';
 import mainRouter from './routes/index.route.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import YAML from 'yamljs';
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 connectDB();
 
@@ -10,7 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/v1', mainRouter);
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });

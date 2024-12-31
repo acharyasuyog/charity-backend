@@ -1,0 +1,86 @@
+openapi: 3.0.0
+
+info:
+  title: 'My API'
+  version: '1.0.0'
+  description: 'My API description'
+
+servers:
+  - url: 'http://localhost:3001'
+    description: 'Local server'
+paths:
+  /api/auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: 'Login'
+      description: 'Login to the application'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'suyogacharya50@gmail.com'
+                  format: email
+                password:
+                  type: string
+                  example: 'password@123'
+                  format: password
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY'
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '500':
+          description: 'Internal server error'
+
+  /api/auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: 'Register'
+      description: 'Register to the application'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'John Doe'
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: 'Bad request'
+        '500':
+          description: 'Internal server error'
