@@ -89,3 +89,70 @@ export const getCampaignbyId = async (req, res) => {
       .json({ message: error.message });
   }
 };
+
+export const updateCampaign = async (req, res) => {
+  const userId = req.user._id;
+  if (!userId) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Unauthorized' });
+  }
+
+  const { id } = req.params;
+  const fundPost = await models.Campaign.findById(id);
+  if (!fundPost) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ message: 'Post not found' });
+  }
+
+  if (fundPost.postedBy.toString() !== userId.toString()) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Unauthorized' });
+  }
+
+  try {
+    await models.Campaign.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    return res.status(StatusCodes.OK).json({ success: true, data: fundPost });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
+};
+
+export const deleteCampaign = async (req, res) => {
+  const userId = req.user._id;
+  if (!userId) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Unauthorized' });
+  }
+
+  const { id } = req.params;
+  const fundPost = await models.Campaign.findById(id);
+  if (!fundPost) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ message: 'Post not found' });
+  }
+
+  if (fundPost.postedBy.toString() !== userId.toString()) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Unauthorized' });
+  }
+
+  try {
+    await models.Campaign.findByIdAndDelete(id);
+    return res.status(StatusCodes.OK).json({ success: true, data: {} });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
+};
