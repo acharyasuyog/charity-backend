@@ -84,3 +84,185 @@ paths:
           description: 'Bad request'
         '500':
           description: 'Internal server error'
+
+  api/category/:
+    post:
+      tags:
+        - Category
+      summary: 'Create Category'
+      description: 'Create a new category'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Disaster/Education'
+
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  category:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+        '400':
+          description: 'Bad request'
+        '500':
+          description: 'Internal server error'
+
+  /api/category/:
+    get:
+      tags:
+        - Category
+      summary: 'Get all categories'
+      description: 'Get all categories'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        name:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+        '500':
+          description: 'Internal server error'
+
+  /api/category/{id}:
+    get:
+      tags:
+        - Category
+      summary: 'Get category by id'
+      description: 'Get category by id'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Category id'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  category:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+        '404':
+          description: 'Category not found'
+        '500':
+          description: 'Internal server error'
+
+          # update category
+    patch:
+      tags:
+        - Category
+      summary: 'Update category'
+      description: 'Update category by id'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Category id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Disaster/Education'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  category:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+        '404':
+          description: 'Category not found'
+        '500':
+          description: 'Internal server error'
+
+    delete:
+      tags:
+        - Category
+      summary: 'Delete category'
+      description: 'Delete category by id'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Category id'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: 'Category not found'
+        '500':
+          description: 'Internal server error'
