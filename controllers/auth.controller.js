@@ -139,5 +139,28 @@ export const uploadProfileImage = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .json({ success: false, message: "Couldn't upload profile image" });
   }
+};
 
+export const updateProfile = async (req, res) => {
+  const { name, email, phoneNumber, age, gender, address } = req.body;
+  // i can only update one fileld, i don't have to update all the fields
+
+  if (!name && !email && !phoneNumber && !age && !gender && !address) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: 'Please provide data to update' });
+  }
+
+  try {
+    const user = await models.Auth.findByIdAndUpdate(req.user._id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    return res.status(StatusCodes.OK).json({ success: true, data: user });
+  } catch (error) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: error.message });
+  }
 };
