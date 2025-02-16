@@ -1,5 +1,4 @@
 openapi: 3.0.0
-
 info:
   title: 'My API'
   version: '1.0.0'
@@ -8,6 +7,7 @@ info:
 servers:
   - url: 'http://localhost:3001'
     description: 'Local server'
+
 paths:
   /api/auth/login:
     post:
@@ -24,12 +24,12 @@ paths:
               properties:
                 email:
                   type: string
-                  example: 'suyogacharya50@gmail.com'
                   format: email
+                  example: 'suyogacharya50@gmail.com'
                 password:
                   type: string
-                  example: 'password@123'
                   format: password
+                  example: 'password@123'
       responses:
         '200':
           description: 'Success'
@@ -85,7 +85,7 @@ paths:
         '500':
           description: 'Internal server error'
 
-  api/category/:
+  /api/category/:
     post:
       tags:
         - Category
@@ -101,7 +101,6 @@ paths:
                 name:
                   type: string
                   example: 'Disaster/Education'
-
       responses:
         '200':
           description: 'Success'
@@ -125,8 +124,6 @@ paths:
           description: 'Bad request'
         '500':
           description: 'Internal server error'
-
-  /api/category/:
     get:
       tags:
         - Category
@@ -192,8 +189,6 @@ paths:
           description: 'Category not found'
         '500':
           description: 'Internal server error'
-
-          # update category
     patch:
       tags:
         - Category
@@ -239,7 +234,6 @@ paths:
           description: 'Category not found'
         '500':
           description: 'Internal server error'
-
     delete:
       tags:
         - Category
@@ -266,3 +260,92 @@ paths:
           description: 'Category not found'
         '500':
           description: 'Internal server error'
+
+  /api/v1/campaign:
+    post:
+      tags:
+        - Campaign
+      summary: 'Create Campaign'
+      description: 'Create a new campaign'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 'Help the needy'
+                description:
+                  type: string
+                  example: 'Help the needy by donating'
+                totalFund:
+                  type: number
+                  example: 1000
+                currentFund:
+                  type: number
+                  example: 0
+                fundDate:
+                  type: string
+                  format: date
+                  example: '2021-12-31'
+                fundTime:
+                  type: string
+                  example: '12:00'
+                totalFundPercentage:
+                  type: number
+                  example: 0
+                fundImage:
+                  type: string
+                  example: 'https://www.google.com'
+                participants:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - '60b9b3b3b3b3b3b3b3b3b3b3'
+                    - '60b9b3b3b3b3b3b3b3b3b3b3'
+                category:
+                  type: string
+                  example: '60b9b3b3b3b3b3b3b3b3b3'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaign:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      category:
+                        type: string
+                      goal:
+                        type: number
+                      endDate:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+        '400':
+          description: 'Bad request'
+        '500':
+          description: 'Internal server error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
