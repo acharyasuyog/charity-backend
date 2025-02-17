@@ -9,7 +9,7 @@ servers:
     description: 'Local server'
 
 paths:
-  /api/auth/login:
+  /api/v1/auth/login:
     post:
       tags:
         - Authentication
@@ -28,7 +28,6 @@ paths:
                   example: 'suyogacharya50@gmail.com'
                 password:
                   type: string
-                  format: password
                   example: 'password@123'
       responses:
         '200':
@@ -48,7 +47,7 @@ paths:
         '500':
           description: 'Internal server error'
 
-  /api/auth/register:
+  /api/v1/auth/register:
     post:
       tags:
         - Authentication
@@ -85,7 +84,7 @@ paths:
         '500':
           description: 'Internal server error'
 
-  /api/category/:
+  /api/v1/category:
     post:
       tags:
         - Category
@@ -104,26 +103,11 @@ paths:
       responses:
         '200':
           description: 'Success'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  category:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                      name:
-                        type: string
-                      createdAt:
-                        type: string
-                      updatedAt:
-                        type: string
         '400':
           description: 'Bad request'
         '500':
           description: 'Internal server error'
+
     get:
       tags:
         - Category
@@ -132,75 +116,42 @@ paths:
       responses:
         '200':
           description: 'Success'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  categories:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        _id:
-                          type: string
-                        name:
-                          type: string
-                        createdAt:
-                          type: string
-                        updatedAt:
-                          type: string
         '500':
           description: 'Internal server error'
 
-  /api/category/{id}:
+  /api/v1/category/{id}:
     get:
       tags:
         - Category
-      summary: 'Get category by id'
-      description: 'Get category by id'
+      summary: 'Get category by ID'
+      description: 'Get category by ID'
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: 'Category id'
+          description: 'Category ID'
       responses:
         '200':
           description: 'Success'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  category:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                      name:
-                        type: string
-                      createdAt:
-                        type: string
-                      updatedAt:
-                        type: string
         '404':
           description: 'Category not found'
         '500':
           description: 'Internal server error'
+
     patch:
       tags:
         - Category
       summary: 'Update category'
-      description: 'Update category by id'
+      description: 'Update category by ID'
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: 'Category id'
+          description: 'Category ID'
       requestBody:
         required: true
         content:
@@ -210,52 +161,30 @@ paths:
               properties:
                 name:
                   type: string
-                  example: 'Disaster/Education'
+                  example: 'Updated Category Name'
       responses:
         '200':
           description: 'Success'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  category:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                      name:
-                        type: string
-                      createdAt:
-                        type: string
-                      updatedAt:
-                        type: string
         '404':
           description: 'Category not found'
         '500':
           description: 'Internal server error'
+
     delete:
       tags:
         - Category
       summary: 'Delete category'
-      description: 'Delete category by id'
+      description: 'Delete category by ID'
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: 'Category id'
+          description: 'Category ID'
       responses:
         '200':
           description: 'Success'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
         '404':
           description: 'Category not found'
         '500':
@@ -295,9 +224,6 @@ paths:
                 fundTime:
                   type: string
                   example: '12:00'
-                totalFundPercentage:
-                  type: number
-                  example: 0
                 fundImage:
                   type: string
                   example: 'https://www.google.com'
@@ -307,45 +233,91 @@ paths:
                     type: string
                   example:
                     - '60b9b3b3b3b3b3b3b3b3b3b3'
-                    - '60b9b3b3b3b3b3b3b3b3b3b3'
                 category:
                   type: string
                   example: '60b9b3b3b3b3b3b3b3b3b3'
       responses:
         '200':
           description: 'Success'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  campaign:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                      title:
-                        type: string
-                      description:
-                        type: string
-                      category:
-                        type: string
-                      goal:
-                        type: number
-                      endDate:
-                        type: string
-                      createdAt:
-                        type: string
-                      updatedAt:
-                        type: string
         '400':
           description: 'Bad request'
         '500':
           description: 'Internal server error'
 
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+  /api/v1/campaign/{id}:
+    get:
+      tags:
+        - Campaign
+      summary: 'Get campaign by ID'
+      description: 'Get campaign by ID'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Campaign ID'
+      responses:
+        '200':
+          description: 'Success'
+        '404':
+          description: 'Campaign not found'
+        '500':
+          description: 'Internal server error'
+
+    patch:
+      tags:
+        - Campaign
+      summary: 'Update campaign'
+      description: 'Update campaign by ID'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Campaign ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 'Updated Campaign Title'
+                description:
+                  type: string
+                  example: 'Updated Campaign Description'
+      responses:
+        '200':
+          description: 'Success'
+        '404':
+          description: 'Campaign not found'
+        '500':
+          description: 'Internal server error'
+
+    delete:
+      tags:
+        - Campaign
+      summary: 'Delete campaign'
+      description: 'Delete campaign by ID'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Campaign ID'
+      responses:
+        '200':
+          description: 'Success'
+        '404':
+          description: 'Campaign not found'
+        '500':
+          description: 'Internal server error'
