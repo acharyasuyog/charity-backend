@@ -1,9 +1,9 @@
 import { Router } from 'express';
 const router = Router();
-import authRouter from '../routes/auth.routes.js';
-import campgaignRouter from '../routes/campaign.route.js';
-import donationRouter from '../routes/donation.routes.js';
-import categoryRouter from '../routes/category.route.js';
+import authRouter from './auth.routes.js';
+import campgaignRouter from './campaign.route.js';
+import donationRouter from './donation.routes.js';
+import categoryRouter from './category.route.js';
 router.use('/auth', authRouter);
 router.use('/campaign', campgaignRouter);
 router.use('/donation', donationRouter);
