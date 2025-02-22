@@ -2,6 +2,7 @@ import uploadOnCloudinary from '../config/cloudinary.config.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import sanitizeFilename from '../sanitizeFilename.js';
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -14,6 +15,9 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`);
+  },
+  sanitizeFilename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${sanitizeFilename(file.originalname)}`);
   },
 });
 

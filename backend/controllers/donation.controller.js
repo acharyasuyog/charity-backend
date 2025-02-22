@@ -43,7 +43,6 @@ export const createDonation = async (req, res) => {
       .status(StatusCodes.CREATED)
       .json({ success: true, data: newDonation });
   } catch (error) {
-    // status === 'failed';
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: error.message });
