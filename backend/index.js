@@ -9,11 +9,12 @@ import YAML from 'yamljs';
 const swaggerDocument = YAML.load('./swagger.yaml');
 
 connectDB();
-
+import cors from 'cors'; /// for testing only
 const app = express();
 app.use(express.json());
-
 app.use('/api/v1', mainRouter);
+app.use(cors()); // Allow all origins
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => {
   res.send('Hello World!');

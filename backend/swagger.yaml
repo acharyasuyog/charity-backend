@@ -66,6 +66,12 @@ paths:
                 email:
                   type: string
                   format: email
+                phoneNumber:
+                  type: string
+                  example: '+977987654321'
+                role:
+                  type: string
+                  example: 'user'
                 password:
                   type: string
                   format: password

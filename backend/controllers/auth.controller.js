@@ -59,7 +59,7 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    res
+    return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ success: false, message: 'Please provide email and password' });
   }
@@ -68,7 +68,7 @@ export const login = async (req, res) => {
     const user = await models.Auth.findOne({ email });
 
     if (!user) {
-      res
+      return res
         .status(StatusCodes.NOT_FOUND)
         .json({ success: false, message: 'Invalid credentials' });
     }
@@ -76,7 +76,7 @@ export const login = async (req, res) => {
     const isMatch = await user.matchPassword(password, user.password);
 
     if (!isMatch) {
-      res
+      return res
         .status(StatusCodes.UNAUTHORIZED)
         .json({ success: false, message: 'Invalid credentials' });
     }
