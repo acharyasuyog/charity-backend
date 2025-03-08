@@ -48,3 +48,14 @@ export const createDonation = async (req, res) => {
       .json({ message: error.message });
   }
 };
+
+export const getDonations = async (req, res) => {
+  try {
+    const donations = await models.Donation.find();
+    return res.status(StatusCodes.OK).json({ success: true, data: donations });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
+};
